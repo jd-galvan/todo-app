@@ -3,7 +3,7 @@ from reactpy.backend.fastapi import configure
 from fastapi import FastAPI
 
 from components.form import Form
-from components.tasks_list import TaskList
+from components.task import Task
 
 app = FastAPI()
 
@@ -20,6 +20,11 @@ def App():
         tasks.append(todo)
         set_tasks([*tasks])
 
+    def remove_task(todo):
+        tasks.remove(todo)
+        print(tasks)
+        set_tasks([*tasks])
+
     return html.div(
         pico_css,
         html.article(
@@ -31,7 +36,7 @@ def App():
             },
             html.div(),
             html.div(
-              TaskList(tasks)
+              html.ul([Task(t, remove_task) for t in tasks])
             ),
             html.div()
           )
